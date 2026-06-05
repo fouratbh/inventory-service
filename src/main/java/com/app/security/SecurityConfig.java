@@ -68,7 +68,7 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
-            // ⚡ MODIFICATION ICI : On applique le convertisseur de JWT
+            // ⚡ 
             .oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
             );
@@ -76,15 +76,13 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /**
-     * Convertisseur pour extraire les rôles du champ "roles" du JWT
-     */
+
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        // On dit à Spring de regarder le claim "roles" (ton mapper Keycloak)
+     
         grantedAuthoritiesConverter.setAuthoritiesClaimName("roles"); 
-        // On ajoute le préfixe ROLE_ pour que hasRole("ADMIN") cherche "ROLE_ADMIN"
+        
         grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
